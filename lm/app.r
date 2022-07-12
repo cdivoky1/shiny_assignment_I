@@ -94,7 +94,7 @@ server <- function(input, output) {
     })
     
     output$lmtPlot <- renderPlot({
-        plot(dataInput()$x,dataInput()$y)
+        plot(dataInput$x,dataInput()$y)
     })
     
     
@@ -112,6 +112,27 @@ server <- function(input, output) {
             return(dataInput())
         }
         
+    })
+    
+    output$summary <- renderPrint({
+        y <- extract(input$y)
+        x <- extract(input$x)
+        fit <- lm(y ~ x)
+        summary(fit)
+    })
+
+  output$results <- renderUI({
+        y <- extract(input$y)
+        x <- extract(input$x)
+        fit <- lm(y ~ x)
+        withMathJax(
+          paste0(
+            "Adj. \\( R^2 = \\) ", round(summary(fit)$adj.r.squared, 3),
+            ", \\( \\beta_0 = \\) ", round(fit$coef[[1]], 3),
+            ", \\( \\beta_1 = \\) ", round(fit$coef[[2]], 3),
+            ", P-value ", "\\( = \\) ", signif(summary(fit)$coef[2, 4], 3)
+          )
+        )
     })
         
 }
