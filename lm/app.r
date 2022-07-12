@@ -90,11 +90,11 @@ server <- function(input, output) {
     # 
     
     output$distPlot <- renderPlot({
-        plot(dataInput$x,dataInput()$y)
+        plot(dataInput()$x,dataInput()$y)
     })
     
     output$lmtPlot <- renderPlot({
-        plot(dataInput$x,dataInput()$y)
+        plot(dataInput$()x,dataInput()$y)
     })
     
     
